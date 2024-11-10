@@ -1,0 +1,345 @@
+.bgoverview{
+    position: relative;
+    background: url('/public/image/bgmain.jpg') no-repeat center center fixed; /* ตั้งค่าพื้นหลังเป็นรูปภาพ */
+    background-size: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่ทั้งหมด */
+    z-index: 2;
+    width: 100%;
+    height: 982px;
+}
+.bgoverview::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 982px;
+    background-color: rgba(0, 0, 0, 0.6);     /* สีดำโปร่งแสงทับพื้นหลัง */
+    z-index: -1;
+  }
+
+.logins-button{
+    background-color: white; /* สีพื้นหลัง */
+    color: black ; /* สีข้อความ */
+    height: 50px;
+    width: 150px;
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 5px; /* มุมโค้งมน */
+    cursor: pointer; /* เปลี่ยนเมาส์เมื่อ hover */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* การเปลี่ยนแปลงแบบนุ่มนวล */
+}
+
+.register-buttonnn{
+    background-color: white; /* สีพื้นหลัง */
+    color: black ; /* สีข้อความ */
+    height: 50px;
+    width: 150px;
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 5px; /* มุมโค้งมน */
+    cursor: pointer; /* เปลี่ยนเมาส์เมื่อ hover */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    position: absolute;
+    right: 180px;
+    top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* การเปลี่ยนแปลงแบบนุ่มนวล */
+}
+
+
+.logohotel{  
+    display: flex;
+    flex-direction: column; /* จัดให้อยู่ในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    padding-top: 20px; /* เพิ่มระยะห่างจากด้านบนเล็กน้อย */
+    color: white;
+  }
+.logohotel h1 {
+    padding: 0;
+    margin:0; /* เพิ่มระยะห่างระหว่างข้อความ */
+    font-size: 36px;
+}
+.logohotel p {
+    padding: 0;
+    margin:0; /* เพิ่มระยะห่างระหว่างข้อความ */
+    font-size: 16px;
+}
+.logo{
+    height: 50px;
+    width: 50px;
+}
+
+.midlogo{
+    display: flex;
+    flex-direction: column; /* จัดให้อยู่ในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    width: 100%;
+    height: 982px;
+    margin-top: 222px;
+
+}  
+.midlogo p{
+    padding : 0;
+    margin : 10px;
+    font-size : 42px;
+    color: white;
+}
+.midlogo img{
+    position: relative;
+    height: 250px;
+    width: 250px;
+    z-index: -2;
+    
+}
+.midlogo::before {
+    position: absolute;
+    top: 0;
+    content: '';
+    width: 100%;
+    height: 100vh+139px;
+    background-color: rgba(0, 0, 0, 0.6);     /* สีดำโปร่งแสงทับพื้นหลัง */
+    z-index: -1;
+  }
+
+.text-inpired {
+    display: flex;
+    flex-direction: column; /* จัดให้อยู่ในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    width: 100%; /* ใช้ความกว้างเต็มหน้าจอ */
+    text-align: center;
+    height: 982px;
+    background-color: #FFF8E1; /* สีพื้นหลัง */
+}
+.text-inpired-1{
+    width: 100%;
+    font-size: 18px;
+    position: relative;
+    top: 80px;
+}
+.text-inpired-2{
+    width: 100%;
+    font-size: 24px;
+    position: relative;
+    top: 370px;
+}
+.text-inpired-3{
+    width: 100%;
+    font-size: 18px;
+    position: relative;
+    top: 370px;
+}
+
+.ViewAuailavility{
+    width: 100%;
+    height: 135px;
+    background-color: #E1FFC3;
+}
+
+.defined {
+    display: flex; 
+    flex-direction: row;
+    width: 100%;
+    height: 982px; 
+    background-color: #FFF8E1;
+    padding-bottom: 80px;
+}
+.left-defined{
+    flex: 55%; 
+    padding: 50px;
+}
+.left-defined img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ทำให้รูปภาพครอบคลุมเต็มพื้นที่โดยไม่ผิดสัดส่วน */
+}
+.right-defined {
+    flex: 45%; 
+   padding: 50px; 
+    padding-left: 0;    
+} 
+
+.hotelCyberVista{
+    display: flex; 
+    flex-direction: row;
+    width: 100%;
+    height: 982px; 
+    background-color: #FFF8E1;
+    padding: 0;
+    margin:0;
+}
+.hotelCyberVista h1{
+    font-size: 60px;
+    color: #FFF8E1;
+    padding: 0;
+    margin: 0;
+}
+.hotelCyberVista h2{
+    font-size: 20px;
+    color: #FFF8E1;
+    padding: 0;
+    margin: 0;
+}
+.hotelCyberVista p{
+    color: #E1FFC3;
+    font-size: 18px;
+    padding: 0;
+    margin: 0;
+}
+.left-hotelCyberVista{
+    flex: 1;
+    margin-right : 10px;
+    display: flex;
+    flex-direction: column; /* จัดให้อยู่ในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    text-align: center;
+    background-color: #3D2B1F;
+}
+.right-hotelCyberVista{
+    margin-left : 10px;
+    flex: 1;
+    background-color: #51861c;
+}
+.right-hotelCyberVista img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ทำให้รูปภาพครอบคลุมเต็มพื้นที่โดยไม่ผิดสัดส่วน */
+}
+.button-room {
+    background-color: white; /* สีพื้นหลัง */
+    color: black ; /* สีข้อความ */
+    height: 66px;
+    width: 594px;
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 5px; /* มุมโค้งมน */
+    cursor: pointer; /* เปลี่ยนเมาส์เมื่อ hover */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    margin: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* การเปลี่ยนแปลงแบบนุ่มนวล */
+}
+
+.bang{
+    background-color: #FFF8E1;
+    width: 100%;
+    height: 150px;
+}
+
+.CafeandClubs{
+    display: flex; 
+    flex-direction: row;
+    position: relative;
+    padding: 0;
+    margin:0;
+    background: url('/public/image/CafeandClubs.jpg') no-repeat center center fixed; /* ตั้งค่าพื้นหลังเป็นรูปภาพ */
+    background-size: cover; /* ทำให้รูปภาพครอบคลุมพื้นที่ทั้งหมด */
+    z-index: 2;
+    width: 100%;
+    height: 982px;
+}
+.CafeandClubs::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 982px;
+    background-color: rgba(0, 0, 0, 0.6);     /* สีดำโปร่งแสงทับพื้นหลัง */
+    z-index: -1;
+  }
+  .left-CafeandClubs{
+    display: flex;
+    flex: 1;
+    flex-direction: column; /* จัดให้อยู่ในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    justify-content: center;
+    text-align: center;
+    color: #E1FFC3;
+
+}
+.right-CafeandClubs{
+    display: flex;
+    flex: 1;
+    flex-direction: column; /* จัดให้อยู่ในแนวตั้ง */
+    align-items: center; /* จัดให้อยู่กึ่งกลางในแนวนอน */
+    justify-content: center;
+    text-align: center;
+    color: #E1FFC3;
+}
+
+.astraea {
+    display: flex; 
+    flex-direction: row;
+    width: 100%;
+    height: 982px; 
+    background-color: #FFF8E1;
+    padding-bottom: 80px;
+}
+.left-astraea{
+    flex: 45%; 
+    padding: 50px;
+}
+.right-astraea img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ทำให้รูปภาพครอบคลุมเต็มพื้นที่โดยไม่ผิดสัดส่วน */
+}
+.right-astraea {
+    flex: 55%; 
+   padding: 50px; 
+    padding-left: 0;    
+} 
+
+
+.swimmingpool {
+    display: flex; 
+    flex-direction: row;
+    width: 100%;
+    height: 982px; 
+    background-color: #FFF8E1;
+    padding-bottom: 80px;
+}
+.right-swimmingpool{
+    flex: 1; 
+    background-color: #0040FF;
+    margin-left: 20px;
+}
+.left-swimmingpool img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ทำให้รูปภาพครอบคลุมเต็มพื้นที่โดยไม่ผิดสัดส่วน */
+}
+.left-swimmingpool {
+    flex: 1; 
+} 
+
+.fitness {
+    display: flex; 
+    flex-direction: row;
+    width: 100%;
+    height: 982px; 
+    background-color: #FFF8E1;
+}
+.right-fitness{
+    flex: 1; 
+    background-color: #0040FF;
+    margin-left: 20px;
+}
+.left-fitness img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ทำให้รูปภาพครอบคลุมเต็มพื้นที่โดยไม่ผิดสัดส่วน */
+}
+.left-fitness {
+    flex: 1; 
+} 
+
+.footer{
+    display: flex; 
+    width: 100%;
+    height: 1313px;
+    background-color: #E1FFC3;
+
+}
+
+
+
+
+
+
+
