@@ -1,4 +1,5 @@
 import React from 'react';
+import './style/App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Overview from './Overview';
@@ -9,6 +10,7 @@ import Grandstandard from './Grandstandard' ;
 import Cafe from './Cafe' ;
 import Clubs from './Clubs' ;
 import Register from './Register';
+import Profile from './Profile';
 
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
           <Route path='/Cafe' element={<Cafe />} />
           <Route path='/Clubs' element={<Clubs />} />
           <Route path='/Register' element={<Register />} />
+          <Route path='/Profile' element={<Profile/>} />
+
 
 
 

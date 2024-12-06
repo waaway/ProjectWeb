@@ -36,7 +36,7 @@ const Register = () => {
       const data = await response.json();
       if (response.ok) {
         alert('Registration successful!');
-        window.location.href = '/overview';
+         window.location.href = '/';
         // Reset form fields
         setUsername('');
         setEmail('');

@@ -86,3 +86,18 @@ h2 {
     padding: 10px;
   }
 }
+
+.register-link-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.register-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

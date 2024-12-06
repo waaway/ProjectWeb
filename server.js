@@ -3,16 +3,21 @@ const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit'); // เพิ่ม express-rate-limit
 
 const app = express();
 const PORT = 3000;
 
+// Secret key สำหรับการเซ็น JWT
+const SECRET_KEY = 'your_secret_key'; // เปลี่ยนเป็นคีย์ลับของคุณ
+
 // สร้างการเชื่อมต่อกับฐานข้อมูล MySQL
 const db = mysql.createConnection({
   host: 'localhost',
-  user: 'root', // แก้ไขให้ตรงกับชื่อผู้ใช้ MySQL ของคุณ
-  password: 'pattananpxndptn01', // แก้ไขให้ตรงกับรหัสผ่านของ MySQL ของคุณ
-  database: 'hotel_users_db', // แก้ไขให้ตรงกับชื่อฐานข้อมูลของคุณ
+  user: 'root',
+  password: 'pattananpxndptn01',
+  database: 'hotel_users_db',
 });
 
 db.connect(err => {
@@ -26,19 +31,21 @@ db.connect(err => {
 app.use(cors());
 app.use(bodyParser.json());
 
+// **Rate Limiter สำหรับ /login**
+const loginLimiter = rateLimit({
+  windowMs:  60 * 1000, // 1 นาที
+  max: 5, // อนุญาตให้ลองเข้าสู่ระบบได้สูงสุด 5 ครั้งต่อ IP
+  message: 'Too many login attempts, please try again after 1 minutes', // ข้อความเมื่อถูกบล็อก
+});
+
 // Endpoint สำหรับการลงทะเบียน
 app.post('/register', async (req, res) => {
   const { username, email, password, phoneNumber, country } = req.body;
 
-  // ตรวจสอบข้อมูลที่ได้รับจาก frontend
-  console.log('Received data:', { username, email, password, phoneNumber, country });
-
   if (!username || !email || !password || !phoneNumber || !country) {
-    console.log('Missing required fields');
     return res.status(400).json({ message: 'All fields are required' });
   }
 
-  // ตรวจสอบว่ามีผู้ใช้อยู่ในระบบหรือไม่
   db.query('SELECT * FROM users WHERE username = ?', [username], async (err, results) => {
     if (err) {
       console.error('Database error during user check:', err);
@@ -46,27 +53,20 @@ app.post('/register', async (req, res) => {
     }
 
     if (results.length > 0) {
-      console.log('User already exists:', username);
       return res.status(400).json({ message: 'User already exists' });
     }
 
     try {
-      // แฮชรหัสผ่านก่อนบันทึก
-      console.log('Hashing password...');
       const hashedPassword = await bcrypt.hash(password, 10);
-      console.log('Password hashed successfully');
 
-      // บันทึกผู้ใช้ใหม่
-      console.log('Inserting user into database...');
       db.query(
         'INSERT INTO users (username, email, password, phoneNumber, country) VALUES (?, ?, ?, ?, ?)',
         [username, email, hashedPassword, phoneNumber, country],
-        (err, results) => {
+        (err) => {
           if (err) {
             console.error('Database insertion error:', err);
             return res.status(500).json({ message: 'Database error' });
           }
-          console.log('User registered successfully:', username);
           res.status(200).json({ message: 'User registered successfully' });
         }
       );
@@ -77,8 +77,8 @@ app.post('/register', async (req, res) => {
   });
 });
 
-// Endpoint สำหรับการเข้าสู่ระบบ
-app.post('/login', (req, res) => {
+// Endpoint สำหรับการเข้าสู่ระบบ (เพิ่ม Rate Limiter)
+app.post('/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -103,13 +103,86 @@ app.post('/login', (req, res) => {
         return res.status(401).json({ message: 'Invalid username or password' });
       }
 
-      res.status(200).json({ message: 'Login successful' });
+      const token = jwt.sign(
+        { id: user.id, username: user.username },
+        SECRET_KEY,
+        { expiresIn: '1h' }
+      );
+
+      res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
       console.error('Error comparing passwords:', error);
       res.status(500).json({ message: 'Error during login' });
     }
   });
 });
+
+// Middleware สำหรับตรวจสอบ Token
+const verifyToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) {
+    return res.status(401).json({ message: 'No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+
+    req.user = user;
+    next();
+  });
+};
+
+// ตัวอย่าง Endpoint ที่ต้องใช้ Token
+app.get('/protected', verifyToken, (req, res) => {
+  res.status(200).json({ message: 'Welcome to the protected route!', user: req.user });
+});
+
+
+app.get('/profile', verifyToken, (req, res) => {
+  const userId = req.user.id;
+
+  db.query('SELECT username, email, phoneNumber, country FROM users WHERE id = ?', [userId], (err, results) => {
+    if (err) {
+      console.error('Database error during profile retrieval:', err);
+      return res.status(500).json({ message: 'Server error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(results[0]);
+  });
+});
+
+//สร้าง API สำหรับตรวจสอบห้องว่าง
+app.post('/available-rooms', (req, res) => {
+  const { checkInDate, checkOutDate, roomType } = req.body;
+
+  // Query to get available rooms
+  const query = `
+    SELECT * FROM rooms 
+    WHERE type = ? AND is_available = 1 
+      AND id NOT IN (
+        SELECT room_id FROM bookings 
+        WHERE (check_in_date <= ? AND check_out_date >= ?)
+      )
+  `;
+
+  db.query(query, [roomType, checkOutDate, checkInDate], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Server error' });
+    }
+    res.json(results);
+  });
+});
+
+
+
 
 // เริ่มเซิร์ฟเวอร์
 app.listen(PORT, () => {
